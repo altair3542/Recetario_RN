@@ -22,7 +22,7 @@ export default function RecipeItem({
                 source={{ uri: recipe.strMealThumb }}
                 style={styles.thumbnail}
             />
-            <Text style={styles.title}>recipe.strMeal</Text>
+            <Text style={styles.title}>{recipe.strMeal}</Text>
             <TouchableOpacity
                 onPress={() => onToggleFavorite(recipe.idMeal)}
             >
