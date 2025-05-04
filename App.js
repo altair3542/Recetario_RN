@@ -34,3 +34,18 @@ export default function App() {
   }, [])
 }
 
+// funcion para marcar o desmarcar una receta como favorita
+
+const toggleFavorite = async (recipeId) => {
+  let newFavs
+  if (favorites.includes(recipeId)) {
+    newFavs = favorites.filter(id => id !== recipeId)
+  } else {
+    newFavs = [...favorites, recipeId]
+  }
+  setFavorites(newFavs)
+  try {
+    await AsyncStorage.setItem('favorites', JSON.stringify(newFavs))
+  } catch (e) {
+    console.error('Error guardando los favoritos:', e)}
+}
