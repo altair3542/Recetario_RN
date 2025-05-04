@@ -1,38 +1,36 @@
-import { SafeAreaView, View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from 'react'
+import { 
+  SafeAreaView, 
+  View, 
+  Text, 
+  Button, 
+  FlatList, 
+  StyleSheet 
+} from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
+// Datos de ejemplo: tres recetas con ID y título
+const RECIPES = [
+  { id: '1', title: 'Spaghetti Bolognese' },
+  { id: '2', title: 'Tacos al Pastor' },
+  { id: '3', title: 'Sushi Roll' },
+]
 export default function App() {
-  return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.container}>
-        <Text style={styles.title}>
-          🍽️ ¡Hola, Recipe Explorer!
-        </Text>
-        <Text style={styles.subtitle}>
-          Tu recetario móvil
-        </Text>
-      </View>
-    </SafeAreaView>
-  )
+  const [favorites, setFavorites] = useState([])
+  
+  // Al montar, leer el array de favoritos de AsyncStorage
+  useEffect(() => {
+    const loadFavorites = async () => {
+      try {
+        const stored = await AsyncStorage.getItem('favorites');
+        if (stored) {
+          setFavorites(JSON.parse(stored));
+        }
+      } catch (e) {
+        console.error('Error leyendo los favoritos:', e );
+      }
+    }
+    loadFavorites()
+  }, [])
 }
 
-const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: '#ffffff'
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#2E86C1'
-  },
-  subtitle: { 
-    fontSize: 18, 
-    color: '#555', 
-    marginTop: 8 
-  }
-});
